@@ -1,3 +1,5 @@
+import sys
+
 camel = r"""
     Switching on the camera in the camel habitat...
      ___.-''''-.
@@ -122,26 +124,36 @@ rabbit = r"""
 
 class Zookeeper:
     @staticmethod
-    def zookeeper_helper():
+    def view_habitat():
         animals = [camel, lion, deer, goose, bat, rabbit]
         while True:
-            print("Please enter the number of the habitat you would like to view: ")
+            print("Please enter the number of the habitat you would like to view (or type 'exit' to leave): ")
             number_of_desired_habitat = input()
-            if number_of_desired_habitat != 'exit':
-                b = int(number_of_desired_habitat)
-                print(animals[b])
-            else:
+            if number_of_desired_habitat.lower() == 'exit':
                 print("See you later!")
-                exit()
+                sys.exit()
+
+            try:
+                habitat_number = int(number_of_desired_habitat)
+                if 0 <= habitat_number < len(animals):
+                    print(animals[habitat_number])
+                else:
+                    print("Invalid habitat number. Please try again.")
+            except ValueError:
+                print("Invalid input. Please enter a valid habitat number.")
 
     @staticmethod
     def love_animals():
-        line1 = "I love animals!"
-        line2 = "Let's check on the animals..."
-        line3 = "The deer looks fine."
-        line4 = "The bat looks happy."
-        line5 = "The lion looks healthy."
-        print(f'{line1}\n{line2}\n{line3}\n{line4}\n{line5}')
+        lines = [
+            "I love animals!",
+            "Let's check on the animals...",
+            "The deer looks fine.",
+            "The bat looks happy.",
+            "The lion looks healthy."
+        ]
+        print('\n'.join(lines))
 
-    love_animals()
-    zookeeper_helper()
+if __name__ == "__main__":
+    zookeeper = Zookeeper()
+    zookeeper.love_animals()
+    zookeeper.view_habitat()
